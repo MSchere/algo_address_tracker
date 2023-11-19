@@ -46,16 +46,6 @@ export async function createWalletSnapshotAction(walletAddress: string): Promise
             ? 0
             : ((balance - dailySnapshotBalance) / dailySnapshotBalance) * 100;
 
-    console.log("created snapshot", {
-        walletAddress,
-        balance,
-        minutelySnapshotBalance,
-        hourlySnapshotBalance,
-        dailySnapshotBalance,
-        minutelyChange,
-        hourlyChange,
-        dailyChange,
-    });
     const walletSnapshot = await WalletSnapshotsRepository.createWalletSnapshot(wallet, {
         minutely: minutelyChange,
         hourly: hourlyChange,
@@ -67,6 +57,16 @@ export async function createWalletSnapshotAction(walletAddress: string): Promise
             errorMessage: "Error creating wallet snapshot",
         };
     }
+    console.log("created snapshot", {
+        walletAddress,
+        balance,
+        minutelySnapshotBalance,
+        hourlySnapshotBalance,
+        dailySnapshotBalance,
+        minutelyChange,
+        hourlyChange,
+        dailyChange,
+    });
     return {
         success: true,
         data: serialize([walletSnapshot]),
