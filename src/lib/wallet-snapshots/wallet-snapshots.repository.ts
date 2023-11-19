@@ -1,11 +1,22 @@
-import { type WalletSnapshot } from "@prisma/client";
+import { type Wallet, type WalletSnapshot } from "@prisma/client";
 import { prisma } from "../prisma";
 
 export class WalletSnapshotsRepository {
-    static async createWalletSnapshot(walletAddress: string, balance: bigint): Promise<WalletSnapshot | null> {
-        const id = `${walletAddress.substring(0, 8)}-${Date.now()}`;
+    static async createWalletSnapshot(
+        wallet: Wallet,
+        percentageChanges: { minutely: number; hourly: number; daily: number }
+    ): Promise<WalletSnapshot | null> {
+        const id = `${wallet.address.substring(0, 8)}-${wallet.updatedAt.getTime()}`;
         const walletSnapshot = await prisma.walletSnapshot.create({
-            data: { id, walletAddress, balance },
+            data: {
+                id,
+                createdAt: wallet.updatedAt,
+                walletAddress: wallet.address,
+                balance: wallet.balance,
+                minutelyChange: percentageChanges.minutely,
+                hourlyChange: percentageChanges.hourly,
+                dailyChange: percentageChanges.daily,
+            },
         });
         return walletSnapshot;
     }
@@ -33,27 +44,14 @@ export class WalletSnapshotsRepository {
         return walletSnapshot;
     }
 
-    static async getLatestWalletSnapshots(): Promise<WalletSnapshot[] | null> {
-        const aggregate = await prisma.walletSnapshot.groupBy({
-            by: ["walletAddress"],
-            _max: {
-                createdAt: true,
-                balance: true,
-            },
-            orderBy: {
-                _max: {
-                    createdAt: "desc",
-                },
-            },
+    static async getLatestWalletSnapshotsForWallets(wallets: Wallet[]): Promise<WalletSnapshot[] | null> {
+        const ids = wallets.map((wallet) => `${wallet.address.substring(0, 8)}-${wallet.updatedAt.getTime()}`);
+        const walletSnapshots = await prisma.walletSnapshot.findMany({
+            where: { id: { in: ids } },
+            orderBy: { createdAt: "desc" },
         });
-        if (!aggregate) return null;
-        return aggregate.map((result) => {
-            return {
-                id: result._max.createdAt!.toString(),
-                walletAddress: result.walletAddress,
-                balance: result._max.balance!,
-                createdAt: result._max.createdAt!,
-            };
-        });
+        return walletSnapshots;
+        
+
     }
 }

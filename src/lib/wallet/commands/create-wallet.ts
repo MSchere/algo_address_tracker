@@ -1,8 +1,8 @@
 "use server";
 
-import { type ActionResponse } from "$src/lib/types/action.types";
-import { type AlgoNodeAccount } from "$src/lib/types/algonode.types";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+import { type ActionResponse } from "$lib/types/action.types";
+import { type AlgoNodeAccount } from "$lib/types/algonode.types";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function createWalletAction(walletAddress: string): Promise<ActionResponse> {

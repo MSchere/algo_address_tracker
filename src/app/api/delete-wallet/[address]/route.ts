@@ -1,5 +1,5 @@
-import { deleteWalletAction } from "$src/lib/wallet/commands/delete-wallet";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+import { deleteWalletAction } from "$lib/wallet/commands/delete-wallet";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function DELETE(req: NextRequest): Promise<NextResponse> {

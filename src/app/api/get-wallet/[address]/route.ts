@@ -1,5 +1,5 @@
-import { getWalletAction } from "$src/lib/wallet/queries/get-wallet";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+import { getWalletAction } from "$lib/wallet/queries/get-wallet";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {

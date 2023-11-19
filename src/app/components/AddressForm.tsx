@@ -1,7 +1,7 @@
 "use client";
 
-import { submitAddressAction } from "$src/lib/form.actions";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+import { submitAddressAction } from "$lib/form.actions";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
@@ -26,6 +26,7 @@ export default function AddressForm() {
                 title: state.errorMessage,
             });
             console.error(state.errorMessage);
+            setAddress("");
             return;
         }
         toast({

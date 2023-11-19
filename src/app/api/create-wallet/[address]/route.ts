@@ -1,6 +1,6 @@
-import { createWalletSnapshotAction } from "$src/lib/wallet-snapshots/commands/create-wallet-snapshot";
-import { createWalletAction } from "$src/lib/wallet/commands/create-wallet";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+import { createWalletSnapshotAction } from "$lib/wallet-snapshots/commands/create-wallet-snapshot";
+import { createWalletAction } from "$lib/wallet/commands/create-wallet";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function POST(req: NextRequest): Promise<NextResponse> {

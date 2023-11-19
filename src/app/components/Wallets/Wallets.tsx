@@ -1,21 +1,9 @@
-import { type WalletStatus } from "$src/lib/types/wallet.types";
-import { WalletSnapshotsRepository } from "$src/lib/wallet-snapshots/wallet-snapshots.repository";
-import RealTimeBalances from "./RealTimeBalances";
+import { WalletSnapshotsRepository } from "$lib/wallet-snapshots/wallet-snapshots.repository";
+import { WalletsRepository } from "$lib/wallet/wallet.repository";
+import RealTimeWallets from "./RealTimeWallets";
 
 export default async function Wallets() {
-    const latestWalletSnapshots = await WalletSnapshotsRepository.getLatestWalletSnapshots();
-    const initialWalletStatuses: WalletStatus[] = [];
-    if (latestWalletSnapshots) {
-        for (const snapshot of latestWalletSnapshots) {
-            initialWalletStatuses.push({
-                address: snapshot.walletAddress,
-                balance: snapshot.balance,
-                minutelyChange: 0,
-                hourlyChange: 0,
-                dailyChange: 0,
-                updatedAt: snapshot.createdAt,
-            });
-        }
-    }
-    return <RealTimeBalances initialRows={initialWalletStatuses} />;
+    const allWallets = await WalletsRepository.getAllWallets() ?? [];
+    const latestWalletSnapshots = await WalletSnapshotsRepository.getLatestWalletSnapshotsForWallets(allWallets) ?? [];
+    return <RealTimeWallets initialRows={latestWalletSnapshots} />;
 }

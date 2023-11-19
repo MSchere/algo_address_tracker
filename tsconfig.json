@@ -41,6 +41,6 @@
     "**/*.cjs",
     "**/*.mjs",
     ".next/types/**/*.ts"
-  ],
+, "src/app/components/Wallets/WalletStatuses.tsx"  ],
   "exclude": ["node_modules"]
 }

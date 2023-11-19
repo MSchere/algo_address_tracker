@@ -1,10 +1,12 @@
 
-import { createWalletSnapshotAction } from "$src/lib/wallet-snapshots/commands/create-wallet-snapshot";
-import { updateBalanceAction } from "$src/lib/wallet/commands/update-balance";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+import { SocketEvents } from "$lib/types/websocket.types";
+import { sendMessageThroughWebsocket } from "$lib/utils/websocket.utils";
+import { createWalletSnapshotAction } from "$lib/wallet-snapshots/commands/create-wallet-snapshot";
+import { updateBalanceAction } from "$lib/wallet/commands/update-balance";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function POST(req: NextRequest): Promise<NextResponse> {
+export async function PUT(req: NextRequest): Promise<NextResponse> {
     const address = req.nextUrl.toString().split("/").pop();
     const validatedAddress = WalletAddressSchema.safeParse(address);
     if (!validatedAddress.success) {
@@ -35,6 +37,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             }
         )
     }
+    
+    await sendMessageThroughWebsocket(SocketEvents.balancesUpdated, res1.data);
     return NextResponse.json(
         {
             ok: true,

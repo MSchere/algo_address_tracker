@@ -1,5 +1,7 @@
-import { type ActionResponse } from "$src/lib/types/action.types";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+"use server";
+
+import { type ActionResponse } from "$lib/types/action.types";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function deleteWalletAction(walletAddress: string): Promise<ActionResponse>  {

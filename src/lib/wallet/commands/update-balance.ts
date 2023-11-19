@@ -1,6 +1,8 @@
-import { type ActionResponse } from "$src/lib/types/action.types";
-import { type AlgoNodeAccount } from "$src/lib/types/algonode.types";
-import { WalletAddressSchema } from "$src/lib/zod.schemas";
+"use server";
+
+import { type ActionResponse } from "$lib/types/action.types";
+import { type AlgoNodeAccount } from "$lib/types/algonode.types";
+import { WalletAddressSchema } from "$lib/zod.schemas";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function updateBalanceAction(walletAddress: string): Promise<ActionResponse> {
@@ -29,12 +31,14 @@ export async function updateBalanceAction(walletAddress: string): Promise<Action
             };
         }
         const newBalance = response.amount;
-        if (newBalance === wallet.balance) {
+        if (newBalance.toString() === wallet.balance.toString()) {
+            console.log(`Wallet ${walletAddress} balance has not changed`);
             return {
                 success: false,
                 errorMessage: `Wallet ${walletAddress} balance has not changed`,
             };
         }
+        console.log(`Wallet ${walletAddress} balance: ${wallet.balance} -> ${newBalance}`);
         const updatedWallet = await WalletsRepository.updateBalance(walletAddress, newBalance);
         if (!updatedWallet) {
             return {

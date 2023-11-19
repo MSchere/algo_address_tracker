@@ -1,7 +1,8 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "$components/ui/table";
-import { type WalletStatus } from "$src/lib/types/wallet.types";
+import { parseBalance } from "$lib/utils";
+import { type WalletSnapshot } from "@prisma/client";
 import {
     flexRender,
     getCoreRowModel,
@@ -14,35 +15,33 @@ import {
     type SortingState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ExternalLink, Search } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import CopyButton from "../utils/CopyButton";
 
 interface Props {
-    walletStatuses: WalletStatus[];
+    WalletSnapshots: WalletSnapshot[];
 }
 
-export default function WalletsTable({ walletStatuses: tableRows }: Props) {
+export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const rankingColumns: ColumnDef<WalletStatus>[] = [
+    const rankingColumns: ColumnDef<WalletSnapshot>[] = [
         {
-            accessorKey: "address",
+            accessorKey: "walletAddress",
             header: "Address",
-            cell: ({ row }) => (
-                <div className="flex gap-2">
-                    <span className="max-w-[200px] overflow-hidden text-ellipsis">{row.original.address}</span>
-                    <CopyButton value={row.original.address} />
-                    <a
-                        className="pt-[2px]"
-                        href={`https://testnet.algoexplorer.io/address/${row.original.address}`}
-                        target="_blank"
-                    >
+            cell: ({ row }) => {
+                const address = row.original.walletAddress;
+                return <div className="flex gap-2">
+                    <span className="max-w-[200px] overflow-hidden text-ellipsis text-coral">{address}</span>
+                    <CopyButton value={address} />
+                    <a className="pt-[2px]" href={`https://testnet.algoexplorer.io/address/${address}`} target="_blank">
                         <ExternalLink width={16} height={16} />
                     </a>
-                </div>
-            ),
+                </div>;
+            },
         },
         {
             accessorKey: "balance",
@@ -54,7 +53,9 @@ export default function WalletsTable({ walletStatuses: tableRows }: Props) {
                     </Button>
                 );
             },
-            cell: ({ row }) => <div className="ml-4">{formatBalance(row.original.balance)}</div>,
+            cell: ({ row }) => <div className="ml-4 flex gap-1">
+                <Image src={"/icons/algo.svg"} width={12} height={12} alt="" />
+                {parseBalance(row.original.balance).toFixed(2)}</div>,
         },
         {
             accessorKey: "minutelyChange",
@@ -67,15 +68,14 @@ export default function WalletsTable({ walletStatuses: tableRows }: Props) {
                 );
             },
             cell: ({ row }) => {
-                const positionChange = row.original.minutelyChange;
+                const change = row.original.minutelyChange;
                 return (
                     <span
-                        className="ml-4"
-                        style={
-                            positionChange > 0 ? { color: "#27951D" } : positionChange < 0 ? { color: "#E12222" } : {}
-                        }
+                        className="ml-4 flex gap-1"
+                        style={change > 0 ? { color: "#27951D" } : change < 0 ? { color: "#E12222" } : {}}
                     >
-                        {formatPercentage(row.original.minutelyChange)}
+                        <ChangeIcon change={change} />
+                        {formatPercentage(change)}{" "}
                     </span>
                 );
             },
@@ -91,15 +91,14 @@ export default function WalletsTable({ walletStatuses: tableRows }: Props) {
                 );
             },
             cell: ({ row }) => {
-                const positionChange = row.original.minutelyChange;
+                const change = row.original.hourlyChange;
                 return (
                     <span
-                        className="ml-4"
-                        style={
-                            positionChange > 0 ? { color: "#27951D" } : positionChange < 0 ? { color: "#E12222" } : {}
-                        }
+                        className="ml-4 flex gap-1"
+                        style={change > 0 ? { color: "#27951D" } : change < 0 ? { color: "#E12222" } : {}}
                     >
-                        {formatPercentage(row.original.hourlyChange)}
+                        <ChangeIcon change={change} />
+                        {formatPercentage(change)}{" "}
                     </span>
                 );
             },
@@ -115,15 +114,14 @@ export default function WalletsTable({ walletStatuses: tableRows }: Props) {
                 );
             },
             cell: ({ row }) => {
-                const positionChange = row.original.minutelyChange;
+                const change = row.original.dailyChange;
                 return (
                     <span
-                        className="ml-4"
-                        style={
-                            positionChange > 0 ? { color: "#27951D" } : positionChange < 0 ? { color: "#E12222" } : {}
-                        }
+                        className="ml-4 flex gap-1"
+                        style={change > 0 ? { color: "#27951D" } : change < 0 ? { color: "#E12222" } : {}}
                     >
-                        {formatPercentage(row.original.dailyChange)}
+                        <ChangeIcon change={change} />
+                        {formatPercentage(change)}
                     </span>
                 );
             },
@@ -139,26 +137,33 @@ export default function WalletsTable({ walletStatuses: tableRows }: Props) {
                 );
             },
             cell: ({ row }) => {
-                return <div className="ml-4">{row.original.updatedAt.toLocaleString()}</div>;
+                return <div className="ml-4">{row.original.createdAt.toLocaleString()}</div>;
             },
         },
     ];
 
-    function formatBalance(value: bigint): string {
-        const str = value.toString();
-        const sliced = `${str.slice(0, -6)}.${str.slice(-6)}`;
-        return Number(sliced).toFixed(2);
+    function ChangeIcon({ change }: { change: number }) {
+        return (
+            <Image
+                src={
+                    change > 0
+                        ? "/icons/triangle-green.svg"
+                        : change < 0
+                          ? "/icons/triangle-red.svg"
+                          : "/icons/equal.svg"
+                }
+                width={8}
+                height={8}
+                alt=""
+            />
+        );
     }
 
     function formatPercentage(value: number): string {
-        let formattedValue = "";
-        if (!value ?? value === 0) formattedValue = "0.0%";
-        if (value >= 100) formattedValue = "+99.9%";
-        if (value < 100) {
-            const fixedValue = value.toFixed(1);
-            formattedValue = value > 0 ? `+${fixedValue}%` : `${fixedValue}%`;
-        }
-        return formattedValue;
+        const decimals = 4;
+        if (!value ?? value === 0) return `${(0).toFixed(decimals)}%`;
+        const fixedValue = value.toFixed(decimals);
+        return value > 0 ? `+${fixedValue}%` : `${fixedValue}%`;
     }
 
     const table = useReactTable({
@@ -182,12 +187,12 @@ export default function WalletsTable({ walletStatuses: tableRows }: Props) {
                 <Search className="absolute left-4" width={16} height={16} />
                 <Input
                     placeholder="search address..."
-                    value={(table.getColumn("address")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) => table.getColumn("address")?.setFilterValue(event.target.value)}
+                    value={(table.getColumn("walletAddress")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) => table.getColumn("walletAddress")?.setFilterValue(event.target.value)}
                     className="form-input max-w-[220px] pl-12 text-base text-primary"
                 />
             </div>
-            <div className="min-h-[580px] rounded-md border">
+            <div className="w-screen lg:w-[1000px] lg:h-[580px] rounded-md border">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

@@ -9,6 +9,11 @@ export class WalletsRepository {
         return wallet;
     }
 
+    static async getAllWallets(): Promise<Wallet[]> {
+        const wallets = await prisma.wallet.findMany();
+        return wallets;
+    }
+
     static async createWallet(address: string, balance: bigint): Promise<Wallet | null> {
         try {
             const wallet = await prisma.wallet.create({

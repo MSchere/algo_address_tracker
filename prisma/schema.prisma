@@ -13,7 +13,7 @@ datasource db {
 
 model Wallet {
   address   String           @id
-  balance   BigInt              @default(0)
+  balance   BigInt           @default(0)
   nfd       String?          @unique
   snapshots WalletSnapshot[]
   createdAt DateTime         @default(now())
@@ -23,11 +23,14 @@ model Wallet {
 }
 
 model WalletSnapshot {
-  id            String   @id @default(cuid())
-  wallet        Wallet   @relation(fields: [walletAddress], references: [address], onDelete: Cascade)
-  walletAddress String
-  balance       BigInt
-  createdAt     DateTime @default(now())
+  id             String   @id @default(cuid())
+  wallet         Wallet   @relation(fields: [walletAddress], references: [address], onDelete: Cascade)
+  walletAddress  String
+  balance        BigInt
+  minutelyChange Float    @default(0)
+  hourlyChange   Float    @default(0)
+  dailyChange    Float    @default(0)
+  createdAt      DateTime @default(now())
 
   @@index([walletAddress])
 }
