@@ -10,7 +10,7 @@ const inter = Inter({
 
 export const metadata = {
     title: "Algo Address Tracker",
-    description: "Track Algoran testnet wallet balances in real time",
+    description: "Track Algorand testnet wallet balances in real time",
     icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
