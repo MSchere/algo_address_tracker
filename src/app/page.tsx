@@ -2,8 +2,8 @@ import WalletTracker from "./components/Wallets/WalletTracker";
 
 export default function HomePage() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center text-white">
-            <div className="flex flex-col gap-20 px-4 py-8 lg:px-16 lg:py-8">
+        <main className="flex sm:min-h-screen flex-col items-center justify-center">
+            <div className="container flex flex-col gap-20 px-4 py-8 lg:px-16 lg:py-8">
                 <div className="flex flex-col gap-8">
                     <h1 className="text-center text-5xl  font-extrabold tracking-tight text-white md:text-[5rem]">
                         <span className="text-teal">Algo</span> Balance Tracker

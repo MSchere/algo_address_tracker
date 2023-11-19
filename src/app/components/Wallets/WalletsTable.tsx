@@ -192,9 +192,9 @@ export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
     });
 
     return (
-        <section className="flex w-full flex-1 flex-col">
-            <div className="flex gap-4">
-                <div className="relative flex items-center py-4">
+        <section className="flex w-full flex-col">
+            <div className="flex gap-0 flex-col sm:flex-row sm:gap-4">
+                <div className="relative flex  items-center pb-4">
                     <Search className="absolute left-4" width={16} height={16} />
                     <Input
                         placeholder="search address..."
@@ -203,11 +203,11 @@ export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
                         className="w-[220px] bg-muted pl-12 text-primary"
                     />
                 </div>
-                <div className="py-4 w-full">
+                <div className="pb-4 w-full">
                     <AddressForm />
                 </div>
             </div>
-            <div className="w-screen border-t-2 lg:h-[580px] lg:w-[1000px]">
+            <div className="border-t-2">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
