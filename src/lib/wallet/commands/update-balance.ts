@@ -32,13 +32,13 @@ export async function updateBalanceAction(walletAddress: string): Promise<Action
         }
         const newBalance = response.amount;
         if (newBalance.toString() === wallet.balance.toString()) {
-            console.log(`Wallet ${walletAddress} balance has not changed`);
+            console.info(`Wallet ${walletAddress} balance has not changed`);
             return {
                 success: false,
                 errorMessage: `Wallet ${walletAddress} balance has not changed`,
             };
         }
-        console.log(`Wallet ${walletAddress} balance: ${wallet.balance} -> ${newBalance}`);
+        console.info(`Wallet ${walletAddress} balance: ${wallet.balance} -> ${newBalance}`);
         const updatedWallet = await WalletsRepository.updateBalance(walletAddress, newBalance);
         if (!updatedWallet) {
             return {

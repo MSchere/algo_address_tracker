@@ -46,7 +46,7 @@ export async function createWalletSnapshotAction(walletAddress: string): Promise
             ? 0
             : ((balance - dailySnapshotBalance) / dailySnapshotBalance) * 100;
 
-    console.log("created snapshot", {
+    console.info("created snapshot", {
         walletAddress,
         balance,
         minutelySnapshotBalance,
