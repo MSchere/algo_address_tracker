@@ -2,7 +2,7 @@
 
 *Real-time monitoring dashboard for Algorand tesnet account balances*
 
-### Visit live site s://algo-address-tracker.vercel.app
+### Visit live site https://algo-address-tracker.vercel.app
 
 ## Stack
 - **Frontend:** Next.js, React, Tailwind CSS
