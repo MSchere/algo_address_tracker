@@ -207,7 +207,7 @@ export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
                     <AddressForm />
                 </div>
             </div>
-            <div className="border-t-2">
+            <div className="border-t-2 h-[580px]">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
