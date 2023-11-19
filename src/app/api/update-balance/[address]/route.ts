@@ -37,7 +37,7 @@ export async function PUT(req: NextRequest): Promise<NextResponse> {
             }
         )
     }
-    
+    // Send a websocket message to all connected clients
     await sendMessageThroughWebsocket(SocketEvents.balancesUpdated, res1.data);
     return NextResponse.json(
         {

@@ -2,6 +2,7 @@
 
 import { type ActionResponse } from "$lib/types/action.types";
 import { WalletAddressSchema } from "$lib/zod.schemas";
+import { serialize } from "$src/lib/utils";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function getWalletAction(walletAddress: string): Promise<ActionResponse> {
@@ -22,7 +23,7 @@ export async function getWalletAction(walletAddress: string): Promise<ActionResp
         }
         return {
             success: true,
-            data: JSON.stringify(wallet),
+            data: serialize(wallet),
         };
     } catch (error) {
         console.error(error);

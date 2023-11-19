@@ -44,6 +44,11 @@ export class WalletSnapshotsRepository {
         return walletSnapshot;
     }
 
+    static async getAllWalletSnapshots(): Promise<WalletSnapshot[]> {
+        const walletSnapshots = await prisma.walletSnapshot.findMany();
+        return walletSnapshots;
+    }
+
     static async getLatestWalletSnapshotsForWallets(wallets: Wallet[]): Promise<WalletSnapshot[] | null> {
         const ids = wallets.map((wallet) => `${wallet.address.substring(0, 8)}-${wallet.updatedAt.getTime()}`);
         const walletSnapshots = await prisma.walletSnapshot.findMany({
