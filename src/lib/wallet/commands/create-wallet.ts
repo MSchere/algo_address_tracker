@@ -14,8 +14,8 @@ export async function createWalletAction(walletAddress: string): Promise<ActionR
                 errorMessage: "Invalid wallet address format",
             };
         }
-        //GET response from balance endpoint
 
+        //Get balance from Algonode endpoint
         const response = await (await fetch(`https://testnet-api.algonode.cloud/v2/accounts/${walletAddress}`))?.json() as AlgoNodeAccount;
         if (!response) {
             return {
@@ -23,6 +23,14 @@ export async function createWalletAction(walletAddress: string): Promise<ActionR
                 errorMessage: "AlgoNode API error",
             };
         }
+
+        if (response.message === "failed to parse the address") {
+            return {
+                success: false,
+                errorMessage: "Wallet does not exist",
+            };
+        }
+
         const initialBalance = response.amount;
         //Create wallet
         const wallet = await WalletsRepository.createWallet(walletAddress, initialBalance);

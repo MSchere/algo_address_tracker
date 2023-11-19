@@ -9,7 +9,7 @@ export class WalletsRepository {
         return wallet;
     }
 
-    static async createWallet(address: string, balance: number): Promise<Wallet | null> {
+    static async createWallet(address: string, balance: bigint): Promise<Wallet | null> {
         try {
             const wallet = await prisma.wallet.create({
                 data: { address, balance },
@@ -20,7 +20,7 @@ export class WalletsRepository {
         }
     }
 
-    static async updateBalance(address: string, balance: number): Promise<Wallet | null> {
+    static async updateBalance(address: string, balance: bigint): Promise<Wallet | null> {
         try {
             const wallet = await prisma.wallet.update({
                 where: { address },

@@ -1,9 +1,16 @@
+@import url("./animations.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
     @import url("./variables.css");
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
 ::-webkit-scrollbar {
@@ -14,7 +21,6 @@
 ::-webkit-scrollbar-thumb {
     background-color: rgba(129, 129, 129, 0.5);
 }
-
 
 html,
 body {

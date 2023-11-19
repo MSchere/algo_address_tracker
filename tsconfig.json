@@ -29,6 +29,8 @@
       "$src/*": ["./src/*"],
       "$app/*": ["./src/app/*"],
       "$lib/*": ["./src/lib/*"],
+      "$components/*": ["./src/app/components/*"],
+      "$hooks/*": ["./src/app/hooks/*"],
     }
   },
   "include": [

@@ -17,18 +17,22 @@
     --muted: 39 39 42;
     --muted-foreground: 252 252 252;
 
-    --accent: 44 183 188;
+    --accent: 55 55 55;
     --accent-foreground: 226 98 86;
+
+    --teal: 44 183 188;
+    --coral: 248 183 196;
 
     --destructive: 255 104 78;
     --destructive-foreground: 252 252 252;
 
-    --creative: 220 254 84;
+    --creative: 96 186 71;
     --creative-foreground: 252 252 252;
 
-    --border: 226 232 240;
-    --input: 226 232 240;
+    --border: 63 63 70;
+    --input: 63 63 70;
     --ring: 32 31 33;
+    --radius: 0.5rem;
 
 
 }
