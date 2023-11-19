@@ -1,6 +1,6 @@
 # Algo Address Tracker
 
-*Real-time monitoring dashboard for Algorand tesnet account balances*
+*Real-time monitoring dashboard for Algorand testnet account balances*
 
 ### Visit live site https://algo-address-tracker.vercel.app
 
