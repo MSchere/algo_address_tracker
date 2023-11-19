@@ -27,7 +27,7 @@ export async function updateAllBalancesAction(): Promise<ActionResponse> {
             }
             const newBalance = response.amount;
             if (newBalance.toString() === wallet.balance.toString()) {
-                console.info(`Wallet ${walletAddress} balance has not changed`);
+                console.log(`Wallet ${walletAddress} balance has not changed`);
                 continue;
             }
             console.info(`Wallet ${walletAddress} balance: ${wallet.balance} -> ${newBalance}`);

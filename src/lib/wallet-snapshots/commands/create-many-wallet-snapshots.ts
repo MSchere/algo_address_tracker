@@ -49,7 +49,7 @@ export async function createManyWalletSnapshotsAction(wallets: Wallet[]): Promis
                 ? 0
                 : ((balance - dailySnapshotBalance) / dailySnapshotBalance) * 100;
 
-        console.info("created snapshot", {
+        console.log("created snapshot", {
             walletAddress: wallet.address,
             balance,
             minutelySnapshotBalance,
