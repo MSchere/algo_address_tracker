@@ -17,6 +17,7 @@ import {
 import { ArrowUpDown, ExternalLink, Search } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import AddressForm from "../AddressForm";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import CopyButton from "../utils/CopyButton";
@@ -34,13 +35,19 @@ export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
             header: "Address",
             cell: ({ row }) => {
                 const address = row.original.walletAddress;
-                return <div className="flex gap-2">
-                    <span className="max-w-[200px] overflow-hidden text-ellipsis text-coral">{address}</span>
-                    <CopyButton value={address} />
-                    <a className="pt-[2px]" href={`https://testnet.algoexplorer.io/address/${address}`} target="_blank">
-                        <ExternalLink width={16} height={16} />
-                    </a>
-                </div>;
+                return (
+                    <div className="flex gap-2">
+                        <span className="max-w-[200px] overflow-hidden text-ellipsis text-teal">{address}</span>
+                        <CopyButton value={address} />
+                        <a
+                            className="pt-[2px]"
+                            href={`https://testnet.algoexplorer.io/address/${address}`}
+                            target="_blank"
+                        >
+                            <ExternalLink width={16} height={16} />
+                        </a>
+                    </div>
+                );
             },
         },
         {
@@ -53,9 +60,12 @@ export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
                     </Button>
                 );
             },
-            cell: ({ row }) => <div className="ml-4 flex gap-1">
-                <Image src={"/icons/algo.svg"} width={12} height={12} alt="" />
-                {parseBalance(row.original.balance).toFixed(2)}</div>,
+            cell: ({ row }) => (
+                <div className="ml-4 flex gap-1">
+                    <Image src={"/icons/algo.svg"} width={12} height={12} alt="" />
+                    {parseBalance(row.original.balance).toFixed(2)}
+                </div>
+            ),
         },
         {
             accessorKey: "minutelyChange",
@@ -183,16 +193,21 @@ export default function WalletsTable({ WalletSnapshots: tableRows }: Props) {
 
     return (
         <section className="flex w-full flex-1 flex-col">
-            <div className="relative flex items-center py-4 ">
-                <Search className="absolute left-4" width={16} height={16} />
-                <Input
-                    placeholder="search address..."
-                    value={(table.getColumn("walletAddress")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) => table.getColumn("walletAddress")?.setFilterValue(event.target.value)}
-                    className="form-input max-w-[220px] pl-12 text-base text-primary"
-                />
+            <div className="flex gap-4">
+                <div className="relative flex items-center py-4">
+                    <Search className="absolute left-4" width={16} height={16} />
+                    <Input
+                        placeholder="search address..."
+                        value={(table.getColumn("walletAddress")?.getFilterValue() as string) ?? ""}
+                        onChange={(event) => table.getColumn("walletAddress")?.setFilterValue(event.target.value)}
+                        className="w-[220px] bg-muted pl-12 text-primary"
+                    />
+                </div>
+                <div className="py-4 w-full">
+                    <AddressForm />
+                </div>
             </div>
-            <div className="w-screen lg:w-[1000px] lg:h-[580px] rounded-md border">
+            <div className="w-screen border-t-2 lg:h-[580px] lg:w-[1000px]">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

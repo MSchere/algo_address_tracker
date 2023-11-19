@@ -39,16 +39,14 @@ export default function AddressForm() {
     function SubmitButton() {
         const { pending } = useFormStatus();
         return (
-            <>
-                <Button
-                    type="submit"
-                    disabled={!isAddressValid || pending}
-                    className="bg-coral font-bold text-background hover:bg-coral hover:brightness-90 w-28"
-                >
-                    {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Submit
-                </Button>
-            </>
+            <Button
+                type="submit"
+                disabled={!isAddressValid || pending}
+                className="w-28 bg-coral font-bold text-background hover:bg-coral hover:brightness-90"
+            >
+                {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Submit
+            </Button>
         );
     }
 
@@ -56,7 +54,7 @@ export default function AddressForm() {
         <form className="flex w-full gap-4" action={formAction}>
             <Input
                 name="address"
-                className="text-center text-xl"
+                className="bg-muted text-center text-xl"
                 type="text"
                 maxLength={58}
                 placeholder="Algorand wallet address (ex: 3JX5...)"

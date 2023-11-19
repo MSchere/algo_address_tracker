@@ -30,7 +30,6 @@ export default function RealTimeWallets({ initialRows: initialRankingEntries }: 
             if (event.type !== `${SocketEvents.balancesUpdated}`) return;
             console.info("Received event through websocket: ", event);
             const socketWalletSnapshots = deserialize<WalletSnapshot[]>(event.data);
-            console.info("Received data through websocket: ", socketWalletSnapshots);
             // update only the wallets that have changed
             const updatedWalletSnapshots = walletSnapshots.map((walletSnapshot) => {
                 const updatedWalletSnapshot = socketWalletSnapshots.find(

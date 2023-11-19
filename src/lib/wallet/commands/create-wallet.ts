@@ -37,15 +37,15 @@ export async function createWalletAction(walletAddress: string): Promise<ActionR
         if (!wallet) {
             return {
                 success: false,
-                errorMessage: "Error creating wallet, wallet already exists",
+                errorMessage: "Error adding wallet, wallet is already tracked",
             };
         }
-        return { success: true, data: `Created wallet ${wallet.address}` };
+        return { success: true, data: `Now trackingag wallet ${wallet.address}` };
     } catch (error) {
         console.error(error);
         return {
             success: false,
-            errorMessage: `Error creating wallet`,
+            errorMessage: `Error adding wallet`,
         };
     }
 }
