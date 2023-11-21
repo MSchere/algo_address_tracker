@@ -1,8 +1,8 @@
 "use server";
 
 import { type ActionResponse } from "$lib/types/action.types";
-import { type AlgoNodeAccount } from "$lib/types/algonode.types";
 import { WalletAddressSchema } from "$lib/zod.schemas";
+import { getAlgoNodeWalletBalance } from "$src/lib/utils/algonode.utils";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function createWalletAction(walletAddress: string): Promise<ActionResponse> {
@@ -16,14 +16,13 @@ export async function createWalletAction(walletAddress: string): Promise<ActionR
         }
 
         //Get balance from Algonode endpoint
-        const response = await (await fetch(`https://testnet-api.algonode.cloud/v2/accounts/${walletAddress}`))?.json() as AlgoNodeAccount;
+        const response = await getAlgoNodeWalletBalance(walletAddress);
         if (!response) {
             return {
                 success: false,
-                errorMessage: "AlgoNode API error",
-            };
+                errorMessage: `Failed to fetch balance for wallet ${walletAddress} after all retries`,
+            }
         }
-
         if (response.message === "failed to parse the address") {
             return {
                 success: false,
@@ -40,7 +39,7 @@ export async function createWalletAction(walletAddress: string): Promise<ActionR
                 errorMessage: "Error adding wallet, wallet is already tracked",
             };
         }
-        return { success: true, data: `Now trackingag wallet ${wallet.address}` };
+        return { success: true, data: `Now tracking wallet ${wallet.address}` };
     } catch (error) {
         console.error(error);
         return {

@@ -1,8 +1,8 @@
 "use server";
 
 import { type ActionResponse } from "$lib/types/action.types";
-import { type AlgoNodeAccount } from "$lib/types/algonode.types";
-import { serialize } from "$lib/utils";
+import { serialize } from "$lib/utils/utils";
+import { getAlgoNodeWalletBalance } from "$src/lib/utils/algonode.utils";
 import { type Wallet } from "@prisma/client";
 import { WalletsRepository } from "../wallet.repository";
 
@@ -18,14 +18,14 @@ export async function updateAllBalancesAction(): Promise<ActionResponse> {
         const updatedWallets: Wallet[] = [];
         for (const wallet of wallets) {
             const walletAddress = wallet.address;
-            const response = (await (
-                await fetch(`https://testnet-api.algonode.cloud/v2/accounts/${walletAddress}`)
-            )?.json()) as AlgoNodeAccount;
-            if (!response) {
-                console.error(`Error fetching wallet ${walletAddress} balance`);
+
+            const algoNodeBalance = await getAlgoNodeWalletBalance(wallet.address);
+            if (!algoNodeBalance) {
+                console.error(`Failed to fetch balance for wallet ${walletAddress} after all retries`);
                 continue;
             }
-            const newBalance = response.amount;
+
+            const newBalance = algoNodeBalance.amount;
             if (newBalance.toString() === wallet.balance.toString()) {
                 console.log(`Wallet ${walletAddress} balance has not changed`);
                 continue;

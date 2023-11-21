@@ -1,7 +1,7 @@
 "use server";
 
 import { type ActionResponse } from "$lib/types/action.types";
-import { parseBalance, serialize } from "$lib/utils";
+import { parseBalance, serialize } from "$lib/utils/utils";
 import { WalletsRepository } from "$lib/wallet/wallet.repository";
 import { WalletSnapshotsRepository } from "../wallet-snapshots.repository";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "$components/ui/table";
-import { parseBalance } from "$lib/utils";
+import { parseBalance } from "$lib/utils/utils";
 import { type WalletSnapshot } from "@prisma/client";
 import {
     flexRender,
@@ -17,10 +17,10 @@ import {
 import { ArrowUpDown, ExternalLink, Search } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import AddressForm from "../AddressForm";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import CopyButton from "../utils/CopyButton";
+import AddressForm from "./AddressForm";
 
 interface Props {
     WalletSnapshots: WalletSnapshot[];

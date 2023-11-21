@@ -1,7 +1,7 @@
 "use server";
 
 import { type ActionResponse } from "$lib/types/action.types";
-import { parseBalance, serialize } from "$lib/utils";
+import { parseBalance, serialize } from "$lib/utils/utils";
 import { type Wallet, type WalletSnapshot } from "@prisma/client";
 import { WalletSnapshotsRepository } from "../wallet-snapshots.repository";
 

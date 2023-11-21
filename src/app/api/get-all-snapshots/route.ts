@@ -1,4 +1,4 @@
-import { serialize } from "$src/lib/utils";
+import { serialize } from "$src/lib/utils/utils";
 import { WalletSnapshotsRepository } from "$src/lib/wallet-snapshots/wallet-snapshots.repository";
 import { NextResponse } from "next/server";
 

@@ -2,7 +2,7 @@
 
 import { type ActionResponse } from "$lib/types/action.types";
 import { WalletAddressSchema } from "$lib/zod.schemas";
-import { serialize } from "$src/lib/utils";
+import { serialize } from "$src/lib/utils/utils";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function getWalletAction(walletAddress: string): Promise<ActionResponse> {

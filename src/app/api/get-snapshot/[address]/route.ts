@@ -1,5 +1,5 @@
 import { WalletAddressSchema } from "$lib/zod.schemas";
-import { serialize } from "$src/lib/utils";
+import { serialize } from "$src/lib/utils/utils";
 import { WalletSnapshotsRepository } from "$src/lib/wallet-snapshots/wallet-snapshots.repository";
 import { NextResponse, type NextRequest } from "next/server";
 

@@ -5,9 +5,9 @@ import { WalletAddressSchema } from "$lib/zod.schemas";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { toast } from "../hooks/use-toast";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
+import { toast } from "../../hooks/use-toast";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export default function AddressForm() {
     const [state, formAction] = useFormState(submitAddressAction, undefined);
@@ -20,20 +20,19 @@ export default function AddressForm() {
 
     useEffect(() => {
         if (!state) return;
+        setAddress("");
         if (!state.success && state.errorMessage) {
             toast({
                 variant: "destructive",
                 title: state.errorMessage,
             });
             console.error(state.errorMessage);
-            setAddress("");
             return;
         }
         toast({
             variant: "creative",
             title: "Wallet address submitted!",
         });
-        setAddress("");
     }, [state]);
 
     function SubmitButton() {

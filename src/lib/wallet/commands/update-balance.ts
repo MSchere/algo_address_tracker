@@ -1,8 +1,8 @@
 "use server";
 
 import { type ActionResponse } from "$lib/types/action.types";
-import { type AlgoNodeAccount } from "$lib/types/algonode.types";
 import { WalletAddressSchema } from "$lib/zod.schemas";
+import { getAlgoNodeWalletBalance } from "$src/lib/utils/algonode.utils";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function updateBalanceAction(walletAddress: string): Promise<ActionResponse> {
@@ -21,15 +21,21 @@ export async function updateBalanceAction(walletAddress: string): Promise<Action
                 errorMessage: "Wallet not found",
             };
         }
-        const response = await (
-            await fetch(`https://testnet-api.algonode.cloud/v2/accounts/${walletAddress}`)
-        )?.json() as AlgoNodeAccount;
+        //Get balance from Algonode endpoint
+        const response = await getAlgoNodeWalletBalance(walletAddress);
         if (!response) {
             return {
                 success: false,
-                errorMessage: "AlgoNode API error",
+                errorMessage: `Failed to fetch balance for wallet ${walletAddress} after all retries`,
+            }
+        }
+        if (response.message === "failed to parse the address") {
+            return {
+                success: false,
+                errorMessage: "Wallet does not exist",
             };
         }
+
         const newBalance = response.amount;
         if (newBalance.toString() === wallet.balance.toString()) {
             console.log(`Wallet ${walletAddress} balance has not changed`);

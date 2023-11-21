@@ -1,7 +1,7 @@
 "use client";
 
 import { SocketEvents } from "$lib/types/websocket.types";
-import { deserialize } from "$lib/utils";
+import { deserialize } from "$lib/utils/utils";
 import { EventDataSchema } from "$lib/zod.schemas";
 import { env } from "$src/env.mjs";
 import { type WalletSnapshot } from "@prisma/client";
@@ -33,12 +33,9 @@ export default function RealTimeWallets({ initialRows: initialRankingEntries }: 
             // update only the wallets that have changed
             const updatedWalletSnapshots = walletSnapshots.map((walletSnapshot) => {
                 const updatedWalletSnapshot = socketWalletSnapshots.find(
-                    (validatedWalletSnapshot) => validatedWalletSnapshot.walletAddress === walletSnapshot.walletAddress
+                    (snapshot) => snapshot.walletAddress === walletSnapshot.walletAddress
                 );
-                if (updatedWalletSnapshot) {
-                    return updatedWalletSnapshot;
-                }
-                return walletSnapshot;
+                return updatedWalletSnapshot ?? walletSnapshot;
             });
             updatedWalletSnapshots.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
             setWalletSnapshots(updatedWalletSnapshots);

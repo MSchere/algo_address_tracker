@@ -1,7 +1,7 @@
 "use server";
 
 import { type ActionResponse } from "$lib/types/action.types";
-import { serialize } from "$src/lib/utils";
+import { serialize } from "$src/lib/utils/utils";
 import { WalletsRepository } from "../wallet.repository";
 
 export async function getAllWalletsAction(): Promise<ActionResponse> {

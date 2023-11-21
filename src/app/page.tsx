@@ -1,4 +1,4 @@
-import WalletTracker from "./components/Wallets/WalletTracker";
+import WalletsTracker from "./components/Wallets/WalletsTracker";
 
 export default function HomePage() {
     return (
@@ -13,7 +13,7 @@ export default function HomePage() {
                     </p>
                 </div>
                 <div className="flex w-full flex-col gap-8">
-                    <WalletTracker />
+                    <WalletsTracker />
                 </div>
             </div>
         </main>

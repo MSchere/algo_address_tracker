@@ -1,6 +1,6 @@
 
 import { SocketEvents } from "$lib/types/websocket.types";
-import { deserialize } from "$lib/utils";
+import { deserialize } from "$lib/utils/utils";
 import { sendMessageThroughWebsocket } from "$lib/utils/websocket.utils";
 import { createManyWalletSnapshotsAction } from "$lib/wallet-snapshots/commands/create-many-wallet-snapshots";
 import { updateAllBalancesAction } from "$lib/wallet/commands/update-all-balances";
